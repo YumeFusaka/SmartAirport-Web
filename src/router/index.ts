@@ -6,7 +6,26 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/home/HomeIndex.vue')
+      component: () => import('@/views/layout/LayoutIndex.vue'),
+      children: [
+        {
+          path: '/passenger',
+          name: 'passenger',
+          component: () => import('@/views/passenger/PassengerIndex.vue'),
+          children: [
+            {
+              path: '/passenger/buyTicket',
+              name: 'buyTicket',
+              component: () => import('@/views/passenger/buyTicket/BuyTicket.vue')
+            }
+          ]
+        },
+        {
+          path: '/merchant',
+          name: 'merchant',
+          component: () => import('@/views/merchant/MerchantIndex.vue')
+        }
+      ]
     },
     {
       path: '/login',

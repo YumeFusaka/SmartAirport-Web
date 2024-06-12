@@ -1,4 +1,4 @@
-import { useClientStore } from '@/stores'
+import { useUserStore } from '@/stores'
 import axios from 'axios'
 import router from '@/router'
 import { ElMessage } from 'element-plus'
@@ -12,9 +12,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const clientStore = useClientStore()
-    if (clientStore.token) {
-      config.headers.Authorization = clientStore.token
+    const userStore = useUserStore()
+    if (userStore.token) {
+      config.headers.Authorization = 'bearer ' + userStore.token
     }
     return config
   },
