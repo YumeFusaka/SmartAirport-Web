@@ -17,6 +17,11 @@ const router = createRouter({
               path: '/passenger/buyTicket',
               name: 'buyTicket',
               component: () => import('@/views/passenger/buyTicket/BuyTicket.vue')
+            },
+            {
+              path: '/passenger/historyTicket',
+              name: 'historyTicket',
+              component: () => import('@/views/passenger/historyTicket/HistoryTicket.vue')
             }
           ]
         },

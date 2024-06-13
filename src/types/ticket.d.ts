@@ -23,4 +23,5 @@ export type BuyTicketView = {
   arrival_city: string;
   date_of_departure: string;
   estimated_travel_time: number;
+  updated_time: string;
 }

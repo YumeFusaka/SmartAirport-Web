@@ -19,7 +19,11 @@ const ticketSearch = ref<BuyTicketView>({
 <template>
   <div class="buy-ticket">
     <div class="header">
-      <div class="title">机票列表</div>
+      <div class="title">历史机票记录</div>
+      <div class="search"><el-icon style="font-size: 2rem; justify-self: center;align-self: center">
+          <i-ep-Search style="width: 80%;height: 80%" />
+        </el-icon>
+      </div>
     </div>
     <div class="body">
       <div class="body-item">
@@ -48,6 +52,7 @@ const ticketSearch = ref<BuyTicketView>({
           <div>座位号</div>
         </div>
         <div class="box">
+          <div>购票时间</div>
         </div>
       </div>
       <div class="body-item">
@@ -75,9 +80,37 @@ const ticketSearch = ref<BuyTicketView>({
         <div class="box">
           <el-input class="el-input" placeholder="座位号" v-model="ticketSearch.seat_number" />
         </div>
-        <div class="box"><el-icon style="font-size: 2rem; justify-self: center;align-self: center">
-            <i-ep-Search style="width: 80%;height: 80%" />
-          </el-icon>
+        <div class="box">
+          <el-input class="el-input" placeholder="购票时间" v-model="ticketSearch.seat_number" />
+        </div>
+      </div>
+      <div class="body-item">
+        <div class="box">
+          <div>321</div>
+        </div>
+        <div class="box">
+          <div>123</div>
+        </div>
+        <div class="box">
+          <div>123</div>
+        </div>
+        <div class="box">
+          <div>123</div>
+        </div>
+        <div class="box">
+          <div>123</div>
+        </div>
+        <div class="box">
+          <div>123</div>
+        </div>
+        <div class="box">
+          <div>123</div>
+        </div>
+        <div class="box">
+          <div>123</div>
+        </div>
+        <div class="box">
+          <div>123</div>
         </div>
       </div>
       <div class="body-item">
@@ -105,8 +138,8 @@ const ticketSearch = ref<BuyTicketView>({
         <div class="box">
           <div>123</div>
         </div>
-        <div class="box"><el-button type="primary"
-            style="width: 70%;justify-self: center;align-self: center">购票</el-button>
+        <div class="box">
+          <div>123</div>
         </div>
       </div>
       <div class="body-item">
@@ -134,8 +167,8 @@ const ticketSearch = ref<BuyTicketView>({
         <div class="box">
           <div>123</div>
         </div>
-        <div class="box"><el-button type="primary"
-            style="width: 70%;justify-self: center;align-self: center">购票</el-button>
+        <div class="box">
+          <div>123</div>
         </div>
       </div>
       <div class="body-item">
@@ -163,37 +196,8 @@ const ticketSearch = ref<BuyTicketView>({
         <div class="box">
           <div>123</div>
         </div>
-        <div class="box"><el-button type="primary"
-            style="width: 70%;justify-self: center;align-self: center">购票</el-button>
-        </div>
-      </div>
-      <div class="body-item">
         <div class="box">
           <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box"><el-button type="primary"
-            style="width: 70%;justify-self: center;align-self: center">购票</el-button>
         </div>
       </div>
     </div>
@@ -219,6 +223,12 @@ const ticketSearch = ref<BuyTicketView>({
     border-bottom: 0.1rem solid rgb(20, 20, 20);
     display: grid;
 
+    .search {
+      position: absolute;
+      right: 5%;
+      top: 14%;
+    }
+
     .title {
       justify-self: center;
       align-self: center;
@@ -233,7 +243,7 @@ const ticketSearch = ref<BuyTicketView>({
 
     .body-item {
       display: grid;
-      grid-template-columns: repeat(8, 2fr) 1fr;
+      grid-template-columns: repeat(9, 2fr);
       justify-items: center;
       align-items: center;
 

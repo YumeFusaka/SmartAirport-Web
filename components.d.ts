@@ -33,6 +33,7 @@ declare module 'vue' {
     IEpIconMenu: typeof import('~icons/ep/icon-menu')['default']
     IEpLocation: typeof import('~icons/ep/location')['default']
     IEpMoney: typeof import('~icons/ep/money')['default']
+    IEpSearch: typeof import('~icons/ep/search')['default']
     IEpShoppingCart: typeof import('~icons/ep/shopping-cart')['default']
     IEpZoomIn: typeof import('~icons/ep/zoom-in')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
