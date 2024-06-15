@@ -7,33 +7,17 @@ import { ref } from 'vue';
     <!-- aside布局 -->
     <el-aside width="15rem" class="aside">
       <el-menu active-text-color="rgb(51,102,255)" background-color="rgb(34,43,69)" text-color="#FFFFFF" router
-        class="menu" default-active="/passenger/buyTicket">
-        <el-menu-item class="aside-item" index="/passenger/buyTicket">
+        class="menu" default-active="/airline/ticket">
+        <el-menu-item class="aside-item" index="/airline/ticket">
           <el-icon>
             <i-ep-Money class="icon" />
           </el-icon>
-          <span class="menu-text">购票窗口</span>
+          <span class="menu-text">机票列表</span>
           <el-icon><i-ep-ArrowRight /></el-icon>
         </el-menu-item>
-        <el-menu-item class="aside-item" index="/passenger/historyTicket">
-          <el-icon>
-            <i-ep-ShoppingCart class="icon" />
-          </el-icon>
-          <span class="menu-text">机票订单</span>
-          <el-icon><i-ep-ArrowRight /></el-icon>
-        </el-menu-item>
-        <el-menu-item class="aside-item" index="3">
-          <el-icon>
-            <i-ep-Handbag class="icon" />
-          </el-icon>
-          <span class="menu-text">商品窗口</span>
-          <el-icon><i-ep-ArrowRight /></el-icon>
-        </el-menu-item>
-        <el-menu-item class="aside-item" index="4">
-          <el-icon>
-            <i-ep-Goods class="icon" />
-          </el-icon>
-          <span class="menu-text">行李查看</span>
+        <el-menu-item class="aside-item" index="/airline/flight">
+          <el-icon><i-ep-Tickets /></el-icon>
+          <span class="menu-text">航班列表</span>
           <el-icon><i-ep-ArrowRight /></el-icon>
         </el-menu-item>
       </el-menu>
@@ -75,8 +59,6 @@ import { ref } from 'vue';
       .aside-item:not(:last-child) {
         border-bottom: 0.1rem solid rgb(228, 60, 178);
       }
-
-
     }
 
   }

@@ -7,11 +7,13 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/views/layout/LayoutIndex.vue'),
+      redirect: '/login',
       children: [
         {
           path: '/passenger',
           name: 'passenger',
           component: () => import('@/views/passenger/PassengerIndex.vue'),
+          redirect: '/passenger/buyTicket',
           children: [
             {
               path: '/passenger/buyTicket',
@@ -29,6 +31,24 @@ const router = createRouter({
           path: '/merchant',
           name: 'merchant',
           component: () => import('@/views/merchant/MerchantIndex.vue')
+        },
+        {
+          path: '/airline',
+          name: 'airline',
+          redirect: '/airline/ticket',
+          component: () => import('@/views/airline/AirlineIndex.vue'),
+          children: [
+            {
+              path: '/airline/ticket',
+              name: 'ticket',
+              component: () => import('@/views/airline/listTicket/ListTicket.vue')
+            },
+            {
+              path: '/airline/flight',
+              name: 'flight',
+              component: () => import('@/views/airline/listFlight/ListFlight.vue')
+            }
+          ]
         }
       ]
     },

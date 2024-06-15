@@ -5,6 +5,7 @@ import { useUserStore } from "@/stores";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import type { UserInfo } from "@/types/user";
+import { identity } from "@vueuse/core";
 const router = useRouter();
 const userStore = useUserStore();
 const formData = ref<UserInfo>({
@@ -40,7 +41,16 @@ const register = async (formRef: FormInstance | null) => {
     address: formData.value.address,
     identity: formData.value.identity
   };
-  const res = ref();
+  if (formData.value.identity === '旅客')
+    registerData.identity = '1';
+  else if (formData.value.identity === '商户')
+    registerData.identity = '2';
+  else if (formData.value.identity === '航司')
+    registerData.identity = '3';
+  else if (formData.value.identity === '工作人员')
+    registerData.identity = '4';
+  console.log(registerData);
+  router.push('/login');
 };
 
 
@@ -64,7 +74,8 @@ const register = async (formRef: FormInstance | null) => {
           <el-input class="user_input" v-model="formData!.name" />
         </el-form-item>
         <el-form-item label="电话" prop="phone" style="margin-top: 3%;">
-          <el-input class="user_input" v-model="formData!.phone" />
+          <span style="margin-left:10%">(+86)</span>
+          <el-input class="user_input" v-model="formData!.phone" style="width:60%;margin-left:3%;" />
         </el-form-item>
         <el-form-item label="地址" prop="address" style="margin-top: 3%;">
           <el-input class="user_input" v-model="formData!.address" />
@@ -80,12 +91,13 @@ const register = async (formRef: FormInstance | null) => {
           </el-radio-group>
         </el-form-item>
         <div class="button-box" style="margin-top: 3%;">
-          <el-button type="primary" @click="" class="button">
-            登录
-          </el-button>
-          <el-button type="danger" @click="" class="button">
+          <el-button type="danger" @click="register(formRef)" class="button">
             注册
           </el-button>
+          <div class="tip" @click="router.push('/login')"
+            style="border-bottom: 1.5px solid rgb(91, 91, 215); cursor: pointer">
+            已有账号？点我去登录
+          </div>
         </div>
       </el-form>
     </div>
@@ -134,10 +146,20 @@ const register = async (formRef: FormInstance | null) => {
 
     .button-box {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(2, 1fr);
+      row-gap: 0.2rem;
 
       .button {
+        width: 60%;
         font-size: 1rem;
+        justify-self: center;
+      }
+
+      .tip {
+        font-size: 0.9rem;
+        color: rgb(91, 91, 215);
+        align-self: center;
+        justify-self: center;
       }
     }
   }

@@ -28,7 +28,23 @@ const login = async (formRef: FormInstance | null) => {
     password: formData.value.password,
     identity: formData.value.identity
   };
-  const res = ref();
+  if (formData.value.identity === '旅客')
+    loginData.identity = '1';
+  else if (formData.value.identity === '商户')
+    loginData.identity = '2';
+  else if (formData.value.identity === '航司')
+    loginData.identity = '3';
+  else if (formData.value.identity === '工作人员')
+    loginData.identity = '4';
+  console.log(loginData)
+  if (formData.value.identity === '旅客')
+    router.push('/' + 'passenger');
+  else if (formData.value.identity === '商户')
+    router.push('/' + 'merchant');
+  else if (formData.value.identity === '航司')
+    router.push('/' + 'airline');
+  else if (formData.value.identity === '工作人员')
+    router.push('/' + 'staff');
 };
 
 </script>
@@ -54,13 +70,14 @@ const login = async (formRef: FormInstance | null) => {
             <el-radio value="工作人员">工作人员</el-radio>
           </el-radio-group>
         </el-form-item>
-        <div class="button-box" style="margin-top: 8%;">
-          <el-button type="primary" @click="" class="button">
+        <div class="button-box" style="margin-top: 6%;">
+          <el-button type="primary" @click="login(formRef)" class="button">
             登录
           </el-button>
-          <el-button type="danger" @click="" class="button">
-            注册
-          </el-button>
+          <div class="tip" @click="router.push('/register')"
+            style="border-bottom: 1.5px solid rgb(241, 102, 127); cursor: pointer">
+            没有账号？点我去注册
+          </div>
         </div>
       </el-form>
     </div>
@@ -109,10 +126,20 @@ const login = async (formRef: FormInstance | null) => {
 
     .button-box {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(2, 1fr);
+      row-gap: 0.2rem;
 
       .button {
+        width: 60%;
         font-size: 1rem;
+        justify-self: center;
+      }
+
+      .tip {
+        font-size: 0.9rem;
+        color: rgb(241, 102, 127);
+        align-self: center;
+        justify-self: center;
       }
     }
   }
