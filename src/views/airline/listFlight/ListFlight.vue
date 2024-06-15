@@ -3,6 +3,10 @@ import type { FormInstance } from 'element-plus'
 import { Search, Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import type { FlightView } from '@/types/flight';
+import type { Page } from '@/types/page';
+import { airlineFindFlightAPI } from '@/apis/airline'
+import type { AirlineFindFlightParams } from '@/types/airline'
+
 const flightSearch = ref<FlightView>({
   flight_number: "",
   departure_city: "",
@@ -11,6 +15,40 @@ const flightSearch = ref<FlightView>({
   estimated_travel_time: 0,
   capacity: 0
 });
+
+const page = ref<Page>({
+  pageNo: 1,
+  pageSize: 8
+})
+
+const conditionSearch = async () => {
+  page.value.pageNo = 1;
+  const params: AirlineFindFlightParams = {
+    flight_number: flightSearch.value.flight_number,
+    departure_city: flightSearch.value.departure_city,
+    arrival_city: flightSearch.value.arrival_city,
+    date_of_departure: flightSearch.value.date_of_departure,
+    estimated_travel_time: flightSearch.value.estimated_travel_time,
+    capacity: flightSearch.value.capacity,
+    pageNo: page.value.pageNo,
+    pageSize: page.value.pageSize
+  }
+  await airlineFindFlightAPI(params);
+}
+
+const pageSearch = async () => {
+  const params: AirlineFindFlightParams = {
+    flight_number: flightSearch.value.flight_number,
+    departure_city: flightSearch.value.departure_city,
+    arrival_city: flightSearch.value.arrival_city,
+    date_of_departure: flightSearch.value.date_of_departure,
+    estimated_travel_time: flightSearch.value.estimated_travel_time,
+    capacity: flightSearch.value.capacity,
+    pageNo: page.value.pageNo,
+    pageSize: page.value.pageSize
+  }
+  await airlineFindFlightAPI(params);
+}
 
 
 // 添加机票弹出框
@@ -404,9 +442,8 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
             @click="dialogAddTicketFormVisible = true">出票</el-button>
         </div>
       </div>
-
     </div>
-    <el-pagination background layout="prev, pager, next" :pager-count="5" :total="50" class="footer" />
+    <el-pagination background layout="prev, pager, next" class="footer" />
   </div>
 </template>
 
@@ -437,7 +474,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 3.8rem;
+    grid-template-rows: repeat(10, 3.8rem);
     padding: 2% 2%;
 
     .body-item {

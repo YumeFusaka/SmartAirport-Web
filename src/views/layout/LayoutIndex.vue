@@ -3,10 +3,12 @@ import { useRouter } from "vue-router";
 import avatarURL from '@/img/avatar.png'
 import userAvatar from '@/img/userAvatar.png'
 import { SwitchButton } from '@element-plus/icons-vue'
-
+import { useUserStore } from "@/stores";
+const userStore = useUserStore();
 const router = useRouter();
 const quit = () => {
-  router.push('/login')
+  userStore.clear();
+  router.push('/login');
 };
 
 </script>

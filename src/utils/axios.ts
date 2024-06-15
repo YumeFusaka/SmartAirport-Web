@@ -27,11 +27,11 @@ instance.interceptors.response.use(
     if (res.data.code === 200) {
       return res
     }
-    ElMessage({ message: res.data.message || '服务异常', type: 'error' })
+    ElMessage({ message: res.data.msg || '服务异常', type: 'error' })
     return Promise.reject(res.data)
   },
   (err) => {
-    ElMessage({ message: err.response.data.message || '服务异常', type: 'error' })
+    ElMessage({ message: err.response.data.msg || '服务异常', type: 'error' })
     console.log(err)
     if (err.response?.status === 401) {
       router.push('/login')
@@ -45,5 +45,5 @@ export { baseURL }
 export interface Data<T> {
   code: string
   msg: string
-  result: T
+  data: T
 }

@@ -6,8 +6,9 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import type { UserLoginParams } from "@/types/user";
 import { identity } from "@vueuse/core";
-const router = useRouter();
+import { userLoginAPI } from "@/apis/user";
 const userStore = useUserStore();
+const router = useRouter();
 const formData = ref<UserLoginParams>({
   username: "",
   password: "",
@@ -23,7 +24,7 @@ const formRef = ref<FormInstance | null>(null);
 
 const login = async (formRef: FormInstance | null) => {
   await formRef?.validate();
-  const loginData = {
+  const loginData: UserLoginParams = {
     username: formData.value.username,
     password: formData.value.password,
     identity: formData.value.identity
@@ -36,15 +37,26 @@ const login = async (formRef: FormInstance | null) => {
     loginData.identity = '3';
   else if (formData.value.identity === '工作人员')
     loginData.identity = '4';
-  console.log(loginData)
-  if (formData.value.identity === '旅客')
+  const res = await userLoginAPI(loginData);
+  console.log(res);
+  userStore.setToken(res.data.token);
+  userStore.setName(res.data.name);
+  if (formData.value.identity === '旅客') {
+    userStore.setIdentity("1");
     router.push('/' + 'passenger');
-  else if (formData.value.identity === '商户')
+  }
+  else if (formData.value.identity === '商户') {
+    userStore.setIdentity("2");
     router.push('/' + 'merchant');
-  else if (formData.value.identity === '航司')
+  }
+  else if (formData.value.identity === '航司') {
+    userStore.setIdentity("3");
     router.push('/' + 'airline');
-  else if (formData.value.identity === '工作人员')
+  }
+  else if (formData.value.identity === '工作人员') {
+    userStore.setIdentity("4");
     router.push('/' + 'staff');
+  }
 };
 
 </script>

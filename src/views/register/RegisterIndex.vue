@@ -6,6 +6,7 @@ import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import type { UserInfo } from "@/types/user";
 import { identity } from "@vueuse/core";
+import { userRegisterAPI } from "@/apis/user";
 const router = useRouter();
 const userStore = useUserStore();
 const formData = ref<UserInfo>({
@@ -32,7 +33,8 @@ const formRef = ref<FormInstance | null>(null);
 
 const register = async (formRef: FormInstance | null) => {
   await formRef?.validate();
-  const registerData = {
+  const registerData: UserInfo = {
+    id: 0,
     username: formData.value.username,
     password: formData.value.password,
     email: formData.value.email,
@@ -49,7 +51,8 @@ const register = async (formRef: FormInstance | null) => {
     registerData.identity = '3';
   else if (formData.value.identity === '工作人员')
     registerData.identity = '4';
-  console.log(registerData);
+  const res = await userRegisterAPI(registerData);
+  console.log(res);
   router.push('/login');
 };
 

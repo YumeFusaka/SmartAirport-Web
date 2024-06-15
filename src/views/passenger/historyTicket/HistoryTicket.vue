@@ -116,7 +116,209 @@ const ticketSearch = ref<BuyTicketView>({
           <div>2024-04-12 10:03:51</div>
         </div>
       </div>
-
+      <div class="body-item">
+        <div class="box">
+          <div>B-1549</div>
+        </div>
+        <div class="box">
+          <div>湖北襄阳</div>
+        </div>
+        <div class="box">
+          <div>上海外滩</div>
+        </div>
+        <div class="box">
+          <div>2024-04-13 20:32:21</div>
+        </div>
+        <div class="box">
+          <div>30min</div>
+        </div>
+        <div class="box">
+          <div>2000</div>
+        </div>
+        <div class="box">
+          <div>一等舱</div>
+        </div>
+        <div class="box">
+          <div>12</div>
+        </div>
+        <div class="box">
+          <div>2024-04-12 10:03:51</div>
+        </div>
+      </div>
+      <div class="body-item">
+        <div class="box">
+          <div>B-1549</div>
+        </div>
+        <div class="box">
+          <div>湖北襄阳</div>
+        </div>
+        <div class="box">
+          <div>上海外滩</div>
+        </div>
+        <div class="box">
+          <div>2024-04-13 20:32:21</div>
+        </div>
+        <div class="box">
+          <div>30min</div>
+        </div>
+        <div class="box">
+          <div>2000</div>
+        </div>
+        <div class="box">
+          <div>一等舱</div>
+        </div>
+        <div class="box">
+          <div>12</div>
+        </div>
+        <div class="box">
+          <div>2024-04-12 10:03:51</div>
+        </div>
+      </div>
+      <div class="body-item">
+        <div class="box">
+          <div>B-1549</div>
+        </div>
+        <div class="box">
+          <div>湖北襄阳</div>
+        </div>
+        <div class="box">
+          <div>上海外滩</div>
+        </div>
+        <div class="box">
+          <div>2024-04-13 20:32:21</div>
+        </div>
+        <div class="box">
+          <div>30min</div>
+        </div>
+        <div class="box">
+          <div>2000</div>
+        </div>
+        <div class="box">
+          <div>一等舱</div>
+        </div>
+        <div class="box">
+          <div>12</div>
+        </div>
+        <div class="box">
+          <div>2024-04-12 10:03:51</div>
+        </div>
+      </div>
+      <div class="body-item">
+        <div class="box">
+          <div>B-1549</div>
+        </div>
+        <div class="box">
+          <div>湖北襄阳</div>
+        </div>
+        <div class="box">
+          <div>上海外滩</div>
+        </div>
+        <div class="box">
+          <div>2024-04-13 20:32:21</div>
+        </div>
+        <div class="box">
+          <div>30min</div>
+        </div>
+        <div class="box">
+          <div>2000</div>
+        </div>
+        <div class="box">
+          <div>一等舱</div>
+        </div>
+        <div class="box">
+          <div>12</div>
+        </div>
+        <div class="box">
+          <div>2024-04-12 10:03:51</div>
+        </div>
+      </div>
+      <div class="body-item">
+        <div class="box">
+          <div>B-1549</div>
+        </div>
+        <div class="box">
+          <div>湖北襄阳</div>
+        </div>
+        <div class="box">
+          <div>上海外滩</div>
+        </div>
+        <div class="box">
+          <div>2024-04-13 20:32:21</div>
+        </div>
+        <div class="box">
+          <div>30min</div>
+        </div>
+        <div class="box">
+          <div>2000</div>
+        </div>
+        <div class="box">
+          <div>一等舱</div>
+        </div>
+        <div class="box">
+          <div>12</div>
+        </div>
+        <div class="box">
+          <div>2024-04-12 10:03:51</div>
+        </div>
+      </div>
+      <div class="body-item">
+        <div class="box">
+          <div>B-1549</div>
+        </div>
+        <div class="box">
+          <div>湖北襄阳</div>
+        </div>
+        <div class="box">
+          <div>上海外滩</div>
+        </div>
+        <div class="box">
+          <div>2024-04-13 20:32:21</div>
+        </div>
+        <div class="box">
+          <div>30min</div>
+        </div>
+        <div class="box">
+          <div>2000</div>
+        </div>
+        <div class="box">
+          <div>一等舱</div>
+        </div>
+        <div class="box">
+          <div>12</div>
+        </div>
+        <div class="box">
+          <div>2024-04-12 10:03:51</div>
+        </div>
+      </div>
+      <div class="body-item">
+        <div class="box">
+          <div>B-1549</div>
+        </div>
+        <div class="box">
+          <div>湖北襄阳</div>
+        </div>
+        <div class="box">
+          <div>上海外滩</div>
+        </div>
+        <div class="box">
+          <div>2024-04-13 20:32:21</div>
+        </div>
+        <div class="box">
+          <div>30min</div>
+        </div>
+        <div class="box">
+          <div>2000</div>
+        </div>
+        <div class="box">
+          <div>一等舱</div>
+        </div>
+        <div class="box">
+          <div>12</div>
+        </div>
+        <div class="box">
+          <div>2024-04-12 10:03:51</div>
+        </div>
+      </div>
     </div>
     <el-pagination background layout="prev, pager, next" :pager-count="5" :total="50" class="footer" />
   </div>
@@ -155,7 +357,7 @@ const ticketSearch = ref<BuyTicketView>({
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 3.8rem;
+    grid-template-rows: repeat(10, 3.8rem);
     padding: 2% 2%;
 
     .body-item {

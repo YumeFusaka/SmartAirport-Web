@@ -17,4 +17,5 @@ export type UserLoginParams = {
 
 export type UserLoginResult = {
   token: string;
+  name: string;
 }

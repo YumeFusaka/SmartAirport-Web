@@ -6,37 +6,31 @@ import { ref } from 'vue'
 export const useUserStore = defineStore(
   'user',
   () => {
-    const token = ref()
+    const token = ref<string>("")
     const setToken = (val: string) => {
       token.value = val
-    }
-    const clearToken = () => {
-      token.value = undefined
     }
     const identity = ref<string>("1");
     const setIdentity = (val: string) => {
       identity.value = val;
     }
-    const clearIdentity = () => {
-      identity.value = "";
-    }
     const name = ref<string>("");
     const setName = (val: string) => {
       name.value = val;
     }
-    const clearName = () => {
+    const clear = () => {
+      token.value = "";
+      identity.value = "";
       name.value = "";
     }
     return {
       token,
       setToken,
-      clearToken,
       identity,
       setIdentity,
-      clearIdentity,
       name,
       setName,
-      clearName
+      clear
     }
   },
   {

@@ -265,7 +265,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 3.8rem;
+    grid-template-rows: repeat(10, 3.8rem);
     padding: 2% 2%;
 
     .body-item {
