@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
-import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
+import { Search, Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import type { FlightView } from '@/types/flight';
 const flightSearch = ref<FlightView>({
@@ -347,10 +347,10 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
         <div class="box">
           <div>乘客容量</div>
         </div>
-        <div class="box"><el-icon @click="dialogAddFlightFormVisible = true"
-            style="font-size: 2.4rem; justify-self: center;align-self: center;background-color: #FF1493;border-radius: 10%">
-            <i-ep-Plus style="width: 60%;height: 60%" />
-          </el-icon>
+        <div class="box">
+          <el-button color="#FF1493"
+            style="font-size: 1.5rem; justify-self: center;align-self: center;width: 2.4rem;height: 2.4rem" :icon="Plus"
+            @click="dialogAddFlightFormVisible = true" />
         </div>
       </div>
       <div class="body-item">
@@ -372,10 +372,10 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
         <div class="box">
           <el-input class="el-input" placeholder="乘客容量" v-model="flightSearch.capacity" />
         </div>
-        <div class="box"><el-icon
-            style="font-size: 2.4rem; justify-self: center;align-self: center;background-color: #626aef;border-radius: 10%">
-            <i-ep-Search style="width: 60%;height: 60%" />
-          </el-icon>
+        <div class="box">
+          <el-button color="#626aef"
+            style="font-size: 1.5rem; justify-self: center;align-self: center;width: 2.4rem;height: 2.4rem"
+            :icon="Search" />
         </div>
       </div>
       <div class="body-item">
@@ -398,7 +398,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
           <div>123</div>
         </div>
         <div class="box-button">
-          <el-button type="warning" style="width: 70%;justify-self: center;align-self: center"
+          <el-button type="success" style="width: 70%;justify-self: center;align-self: center"
             @click="dialogWitchFlightFormVisible = true">查看</el-button>
           <el-button type="primary" style="width: 70%;align-self: center"
             @click="dialogAddTicketFormVisible = true">出票</el-button>
@@ -437,7 +437,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 3rem;
+    grid-auto-rows: 3.8rem;
     padding: 2% 2%;
 
     .body-item {
@@ -460,6 +460,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
         div {
           align-self: center;
           justify-self: center;
+          text-align: center
         }
       }
 

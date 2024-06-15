@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Search } from '@element-plus/icons-vue'
 import type { BuyTicketView } from '@/types/ticket';
 import { ref } from 'vue'
 const ticketSearch = ref<BuyTicketView>({
@@ -75,9 +76,10 @@ const ticketSearch = ref<BuyTicketView>({
         <div class="box">
           <el-input class="el-input" placeholder="座位号" v-model="ticketSearch.seat_number" />
         </div>
-        <div class="box"><el-icon style="font-size: 2rem; justify-self: center;align-self: center">
-            <i-ep-Search style="width: 80%;height: 80%" />
-          </el-icon>
+        <div class="box">
+          <el-button color="#626aef"
+            style="font-size: 1.5rem; justify-self: center;align-self: center;width: 2.4rem;height: 2.4rem"
+            :icon="Search" />
         </div>
       </div>
       <div class="body-item">
@@ -228,7 +230,7 @@ const ticketSearch = ref<BuyTicketView>({
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 3rem;
+    grid-auto-rows: 3.8rem;
     padding: 2% 2%;
 
     .body-item {
@@ -251,6 +253,7 @@ const ticketSearch = ref<BuyTicketView>({
         div {
           align-self: center;
           justify-self: center;
+          text-align: center
         }
       }
     }

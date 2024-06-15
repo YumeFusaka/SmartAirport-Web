@@ -198,10 +198,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
         <div class="box">
           <el-input class="el-input" placeholder="座位号" v-model="ticketSearch.seat_number" />
         </div>
-        <div class="box"><el-icon
-            style="font-size: 2.4rem; justify-self: center;align-self: center;background-color: #626aef;border-radius: 10%">
-            <i-ep-Search style="width: 60%;height: 60%" />
-          </el-icon>
+        <div class="box">
+          <el-button color="#626aef"
+            style="font-size: 1.5rem; justify-self: center;align-self: center;width: 2.4rem;height: 2.4rem"
+            :icon="Search" />
         </div>
       </div>
       <div class="body-item">
@@ -229,94 +229,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
         <div class="box">
           <div>123</div>
         </div>
-        <div class="box"><el-button type="warning" @click="dialogFormVisible = true"
-            style="width: 70%;justify-self: center;align-self: center">查看</el-button>
-        </div>
-      </div>
-      <div class="body-item">
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box"><el-button type="warning"
-            style="width: 70%;justify-self: center;align-self: center">查看</el-button>
-        </div>
-      </div>
-      <div class="body-item">
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box"><el-button type="warning"
-            style="width: 70%;justify-self: center;align-self: center">查看</el-button>
-        </div>
-      </div>
-      <div class="body-item">
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box"><el-button type="warning"
+        <div class="box"><el-button type="primary" @click="dialogFormVisible = true"
             style="width: 70%;justify-self: center;align-self: center">查看</el-button>
         </div>
       </div>
@@ -352,7 +265,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 3rem;
+    grid-auto-rows: 3.8rem;
     padding: 2% 2%;
 
     .body-item {
@@ -375,6 +288,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
         div {
           align-self: center;
           justify-self: center;
+          text-align: center
         }
       }
     }

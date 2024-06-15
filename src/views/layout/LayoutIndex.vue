@@ -2,14 +2,11 @@
 import { useRouter } from "vue-router";
 import avatarURL from '@/img/avatar.png'
 import userAvatar from '@/img/userAvatar.png'
+import { SwitchButton } from '@element-plus/icons-vue'
 
-
-const loginIn = () => {
-  console.log("loginIn");
-};
-
-const loginOut = () => {
-  console.log("loginOut");
+const router = useRouter();
+const quit = () => {
+  router.push('/login')
 };
 
 </script>
@@ -26,6 +23,7 @@ const loginOut = () => {
       <span class="profile">
         梦浮羽
       </span>
+      <el-button class="quit" type="primary" circle color="#ca41ca" :icon="SwitchButton" @click="quit()" />
     </el-header>
     <el-main class="main">
       <RouterView />
@@ -57,14 +55,23 @@ const loginOut = () => {
 
     .user_Avatar {
       position: absolute;
-      right: 6.6%;
+      right: 9.3%;
     }
 
     .profile {
       color: #ffffff;
       font-size: 1.1rem;
       position: absolute;
-      right: 3%;
+      right: 5.5%;
+    }
+
+    .quit {
+
+      width: 40px;
+      height: 40px;
+      font-size: 1.4rem;
+      position: absolute;
+      right: 2%;
     }
 
   }

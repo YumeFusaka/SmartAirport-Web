@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BuyTicketView } from '@/types/ticket';
+import { Search } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 const ticketSearch = ref<BuyTicketView>({
   price: 0,
@@ -20,9 +21,11 @@ const ticketSearch = ref<BuyTicketView>({
   <div class="buy-ticket">
     <div class="header">
       <div class="title">历史机票记录</div>
-      <div class="search"><el-icon style="font-size: 2rem; justify-self: center;align-self: center">
-          <i-ep-Search style="width: 80%;height: 80%" />
-        </el-icon>
+      <div class="search">
+        <el-button color="#626aef"
+          style="font-size: 1.5rem; justify-self: center;align-self: center;width: 2.4rem;height: 2.4rem"
+          :icon="Search" />
+
       </div>
     </div>
     <div class="body">
@@ -86,120 +89,34 @@ const ticketSearch = ref<BuyTicketView>({
       </div>
       <div class="body-item">
         <div class="box">
-          <div>321</div>
+          <div>B-1549</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>湖北襄阳</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>上海外滩</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>2024-04-13 20:32:21</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>30min</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>2000</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>一等舱</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>12</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>2024-04-12 10:03:51</div>
         </div>
       </div>
-      <div class="body-item">
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-      </div>
-      <div class="body-item">
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-      </div>
-      <div class="body-item">
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-        <div class="box">
-          <div>123</div>
-        </div>
-      </div>
+
     </div>
     <el-pagination background layout="prev, pager, next" :pager-count="5" :total="50" class="footer" />
   </div>
@@ -238,7 +155,7 @@ const ticketSearch = ref<BuyTicketView>({
   .body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-auto-rows: 3rem;
+    grid-auto-rows: 3.8rem;
     padding: 2% 2%;
 
     .body-item {
@@ -261,6 +178,7 @@ const ticketSearch = ref<BuyTicketView>({
         div {
           align-self: center;
           justify-self: center;
+          text-align: center
         }
       }
     }
