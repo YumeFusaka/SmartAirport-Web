@@ -1,5 +1,6 @@
 import type { AirlineFindFlightParams, FlightInfo } from '@/types/airline';
 import type { FlightDeleteParams, FlightView } from '@/types/flight';
+import type { AddTicketParams } from '@/types/ticket';
 import http, { type Data } from '@/utils/axios';
 
 export const airlineFindFlightAPI = (
@@ -40,6 +41,14 @@ export const airlineDeleteFlightAPI = (data: FlightDeleteParams): Promise<Data<s
   return http({
     url: "/airline/flight/delete",
     method: "DELETE",
+    data: data
+  }).then((res) => res.data as Data<string>);
+}
+
+export const airlineAddTicketAPI = (data: AddTicketParams): Promise<Data<string>> => {
+  return http({
+    url: "/airline/ticket/add",
+    method: "POST",
     data: data
   }).then((res) => res.data as Data<string>);
 }

@@ -4,9 +4,10 @@ import { Search, Plus } from '@element-plus/icons-vue'
 import { onMounted, ref } from 'vue'
 import type { FlightCountParams, FlightDeleteParams, FlightView } from '@/types/flight';
 import type { Page } from '@/types/page';
-import { airlineAddFlightAPI, airlineDeleteFlightAPI, airlineFindFlightAPI, airlineFlightCountAPI, airlineUpdateFlightAPI } from '@/apis/airline'
+import { airlineAddFlightAPI, airlineAddTicketAPI, airlineDeleteFlightAPI, airlineFindFlightAPI, airlineFlightCountAPI, airlineUpdateFlightAPI } from '@/apis/airline'
 import type { AirlineFindFlightParams, FlightInfo } from '@/types/airline'
 import { msToDate } from '@/utils/msToDate';
+import type { AddTicketParams } from '@/types/ticket';
 
 const flightSearch = ref<FlightView>({
   flight_number: "",
@@ -121,11 +122,21 @@ const addTicketForm = ref({
   departure_city: '',
   arrival_city: '',
   date_of_departure: '',
-  estimated_travel_time: '',
-  price: '',
+  estimated_travel_time: 0,
+  price: 0,
   seat_class: '',
-  seat_number: '',
+  seat_number: 0,
 })
+
+const openAddTicket = () => {
+  addTicketForm.value = {
+    ...itemNow.value!,
+    price: 0,
+    seat_class: '',
+    seat_number: 0,
+  };
+  dialogAddTicketFormVisible.value = true;
+}
 
 const addRules = ref({
   flight_number: [
@@ -170,6 +181,18 @@ const submitAddTicketForm = async (formEl: FormInstance | undefined) => {
     } else {
       console.log('error submit!', fields)
     }
+  })
+  const params: AddTicketParams = {
+    flight_id: itemNow.value!.id,
+    price: addTicketForm.value.price,
+    seat_class: addTicketForm.value.seat_class,
+    seat_number: addTicketForm.value.seat_number,
+  }
+  const res = await airlineAddTicketAPI(params);
+  console.log(res);
+  ElMessage({
+    message: '添加成功',
+    type: 'success',
   })
 }
 
@@ -339,7 +362,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
   <!-- 添加机票弹出框 -->
   <el-dialog v-model="dialogAddTicketFormVisible" title="发布机票" width="600"
     style="padding: 50px;padding-top: 30px; border-radius: 2%">
-    <el-form v-model="addTicketForm" :rules="addRules" ref="addTicketFormRef" label-position="left" label-width="130px">
+    <el-form :model="addTicketForm" :rules="addRules" ref="addTicketFormRef" label-position="left" label-width="130px">
       <el-form-item prop="flight_number" label="航空器注册号" :required="true">
         <el-input v-model="addTicketForm.flight_number" placeholder="航空器注册号" disabled="true">
         </el-input>
@@ -357,8 +380,8 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
           disabled="true">
         </el-date-picker>
       </el-form-item>
-      <el-form-item prop="estimated_travel_time" label="预计飞行时间" :required="true" disabled="true">
-        <el-input v-model="addTicketForm.estimated_travel_time" placeholder="预计飞行时间">
+      <el-form-item prop="estimated_travel_time" label="预计飞行时间" :required="true">
+        <el-input v-model="addTicketForm.estimated_travel_time" placeholder="预计飞行时间" disabled="true">
         </el-input>
       </el-form-item>
       <el-form-item prop="price" label="价格" :required="true">
@@ -378,7 +401,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
     <template #footer>
       <div class="dialog-footer">
         <el-button type="success" @click="dialogAddTicketFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogAddTicketFormVisible = false">
+        <el-button type="primary" @click="submitAddTicketForm(addTicketFormRef); dialogAddTicketFormVisible = false">
           Add
         </el-button>
       </div>
@@ -427,7 +450,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
   </el-dialog>
 
   <!-- 查看航班弹出框 -->
-  <el-dialog v-model="dialogWitchFlightFormVisible" title="发布机票" width="600"
+  <el-dialog v-model="dialogWitchFlightFormVisible" title="航班详情" width="600"
     style="padding: 50px;padding-top: 30px; border-radius: 2%">
     <el-form :model="witchFlightForm" :rules="witchFlightRules" ref="witchFlightFormRef" label-position="left"
       label-width="130px">
@@ -541,16 +564,16 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
           <div>{{ item.date_of_departure }}</div>
         </div>
         <div class="box">
-          <div>{{ item.estimated_travel_time }}</div>
+          <div>{{ item.estimated_travel_time }} min</div>
         </div>
         <div class="box">
-          <div>{{ item.capacity }}</div>
+          <div>{{ item.capacity }} 人</div>
         </div>
         <div class="box-button">
           <el-button type="success" style="width: 70%;justify-self: center;align-self: center"
             @click="itemNow = item; openWitch()">查看</el-button>
           <el-button type="primary" style="width: 70%;align-self: center"
-            @click="dialogAddTicketFormVisible = true">出票</el-button>
+            @click="itemNow = item; openAddTicket();">出票</el-button>
         </div>
       </div>
     </div>

@@ -25,3 +25,11 @@ export type BuyTicketView = {
   estimated_travel_time: number;
   updated_time: string;
 }
+
+
+export type AddTicketParams = {
+  flight_id: number;
+  seat_class: string;
+  seat_number: number;
+  price: number;
+}
