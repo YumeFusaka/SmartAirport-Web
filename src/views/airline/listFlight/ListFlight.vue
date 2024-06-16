@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { Search, Plus } from '@element-plus/icons-vue'
-import { ref } from 'vue'
-import type { FlightView } from '@/types/flight';
+import { onMounted, ref } from 'vue'
+import type { FlightCountParams, FlightDeleteParams, FlightView } from '@/types/flight';
 import type { Page } from '@/types/page';
-import { airlineFindFlightAPI } from '@/apis/airline'
-import type { AirlineFindFlightParams } from '@/types/airline'
+import { airlineAddFlightAPI, airlineDeleteFlightAPI, airlineFindFlightAPI, airlineFlightCountAPI, airlineUpdateFlightAPI } from '@/apis/airline'
+import type { AirlineFindFlightParams, FlightInfo } from '@/types/airline'
+import { msToDate } from '@/utils/msToDate';
 
 const flightSearch = ref<FlightView>({
   flight_number: "",
@@ -16,13 +17,39 @@ const flightSearch = ref<FlightView>({
   capacity: 0
 });
 
+const flightSearchParams = ref<FlightCountParams>({
+  flight_number: "",
+  departure_city: "",
+  arrival_city: "",
+  date_of_departure: "",
+  estimated_travel_time: 0,
+  capacity: 0,
+  pageNo: 1,
+  pageSize: 8
+})
+
 const page = ref<Page>({
   pageNo: 1,
   pageSize: 8
 })
 
+const countNumber = ref<number>(0);
+
+const countFlight = async () => {
+  console.log(flightSearchParams.value)
+  const res = await airlineFlightCountAPI(flightSearchParams.value);
+  console.log(res)
+  countNumber.value = res.data;
+}
+
+const flightList = ref<FlightInfo[]>()
+
 const conditionSearch = async () => {
   page.value.pageNo = 1;
+  flightSearchParams.value = {
+    ...flightSearch.value,
+    ...page.value
+  };
   const params: AirlineFindFlightParams = {
     flight_number: flightSearch.value.flight_number,
     departure_city: flightSearch.value.departure_city,
@@ -33,22 +60,57 @@ const conditionSearch = async () => {
     pageNo: page.value.pageNo,
     pageSize: page.value.pageSize
   }
-  await airlineFindFlightAPI(params);
+  const res = await airlineFindFlightAPI(params);
+  console.log(res)
+  countFlight();
+  flightList.value = res.data
 }
 
 const pageSearch = async () => {
   const params: AirlineFindFlightParams = {
-    flight_number: flightSearch.value.flight_number,
-    departure_city: flightSearch.value.departure_city,
-    arrival_city: flightSearch.value.arrival_city,
-    date_of_departure: flightSearch.value.date_of_departure,
-    estimated_travel_time: flightSearch.value.estimated_travel_time,
-    capacity: flightSearch.value.capacity,
+    flight_number: flightSearchParams.value.flight_number,
+    departure_city: flightSearchParams.value.departure_city,
+    arrival_city: flightSearchParams.value.arrival_city,
+    date_of_departure: flightSearchParams.value.date_of_departure,
+    estimated_travel_time: flightSearchParams.value.estimated_travel_time,
+    capacity: flightSearchParams.value.capacity,
     pageNo: page.value.pageNo,
     pageSize: page.value.pageSize
   }
-  await airlineFindFlightAPI(params);
+  const res = await airlineFindFlightAPI(params);
+  console.log(res);
+  flightList.value = res.data;
 }
+
+const refreshSearch = async () => {
+  flightSearch.value = {
+    flight_number: "",
+    departure_city: "",
+    arrival_city: "",
+    date_of_departure: "",
+    estimated_travel_time: 0,
+    capacity: 0
+  };
+  flightSearchParams.value = {
+    flight_number: "",
+    departure_city: "",
+    arrival_city: "",
+    date_of_departure: "",
+    estimated_travel_time: 0,
+    capacity: 0,
+    pageNo: 1,
+    pageSize: 8
+  };
+  page.value.pageNo = 1;
+  page.value.pageSize = 8;
+  await countFlight();
+  await pageSearch();
+}
+
+onMounted(async () => {
+  await countFlight();
+  await pageSearch();
+})
 
 
 // 添加机票弹出框
@@ -120,19 +182,30 @@ const resetAddTicketForm = (formEl: FormInstance | undefined) => {
 // 添加航班弹出框
 
 const dialogAddFlightFormVisible = ref(false)
-
+const clearAddFlightForm = () => {
+  addFlightForm.value = {
+    id: 0,
+    flight_number: '',
+    departure_city: '',
+    arrival_city: '',
+    date_of_departure: '2024-06-06 00:00:00',
+    estimated_travel_time: 0,
+    capacity: 0,
+  }
+}
 
 const addFlightFormRef = ref<FormInstance>()
-const addFlightForm = ref({
+const addFlightForm = ref<FlightInfo>({
+  id: 0,
   flight_number: '',
   departure_city: '',
   arrival_city: '',
   date_of_departure: '',
-  estimated_travel_time: '',
-  capacity: '',
+  estimated_travel_time: 0,
+  capacity: 0,
 })
 
-const addFlightRules = ref({
+const addFlightRules = ref<FormRules<FlightInfo>>({
   flight_number: [
     { required: true, message: '请输入航空器注册号', trigger: 'blur' },
   ],
@@ -162,6 +235,15 @@ const submitAddFlightForm = async (formEl: FormInstance | undefined) => {
       console.log('error submit!', fields)
     }
   })
+  addFlightForm.value.date_of_departure = msToDate(addFlightForm.value.date_of_departure).hasTime;
+  const res = await airlineAddFlightAPI(addFlightForm.value);
+  console.log(res);
+  ElMessage({
+    message: '添加成功',
+    type: 'success',
+  })
+  clearAddFlightForm();
+  refreshSearch();
 }
 
 const resetAddFlightForm = (formEl: FormInstance | undefined) => {
@@ -172,15 +254,22 @@ const resetAddFlightForm = (formEl: FormInstance | undefined) => {
 // 查看航班弹出框
 const dialogWitchFlightFormVisible = ref(false)
 
+const itemNow = ref<FlightInfo>();
+
+const openWitch = () => {
+  witchFlightForm.value = itemNow.value!;
+  dialogWitchFlightFormVisible.value = true;
+}
 
 const witchFlightFormRef = ref<FormInstance>()
-const witchFlightForm = ref({
+const witchFlightForm = ref<FlightInfo>({
+  id: 0,
   flight_number: '',
   departure_city: '',
   arrival_city: '',
   date_of_departure: '',
-  estimated_travel_time: '',
-  capacity: '',
+  estimated_travel_time: 0,
+  capacity: 0,
 })
 
 const witchFlightRules = ref({
@@ -213,6 +302,30 @@ const submitWitchFlightForm = async (formEl: FormInstance | undefined) => {
       console.log('error submit!', fields)
     }
   })
+  witchFlightForm.value.date_of_departure = msToDate(witchFlightForm.value.date_of_departure).hasTime;
+  const res = await airlineUpdateFlightAPI(witchFlightForm.value);
+  console.log(res);
+  ElMessage({
+    message: '修改成功',
+    type: 'success',
+  })
+  dialogWitchFlightFormVisible.value = false;
+  refreshSearch();
+}
+
+const deleteFlight = async () => {
+  const flightDeleteParams = ref<FlightDeleteParams>({
+    flightIds: []
+  });
+  flightDeleteParams.value.flightIds.push(witchFlightForm.value.id)
+  const res = await airlineDeleteFlightAPI(flightDeleteParams.value);
+  console.log(res);
+  ElMessage({
+    message: '删除成功',
+    type: 'success',
+  })
+  dialogWitchFlightFormVisible.value = false;
+  refreshSearch();
 }
 
 const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
@@ -240,7 +353,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
         </el-input>
       </el-form-item>
       <el-form-item prop="date_of_departure" label="出发时间" :required="true">
-        <el-date-picker v-model="addTicketForm.date_of_departure" :clearable="true" placeholder="日期" type="datetime"
+        <el-date-picker v-model="addTicketForm.date_of_departure" :clearable="true" placeholder="日期" type="datatime"
           disabled="true">
         </el-date-picker>
       </el-form-item>
@@ -273,9 +386,9 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
   </el-dialog>
 
   <!-- 添加航班弹出框 -->
-  <el-dialog v-model="dialogAddFlightFormVisible" title="发布机票" width="600"
+  <el-dialog v-model="dialogAddFlightFormVisible" title="添加航班" width="600"
     style="padding: 50px;padding-top: 30px; border-radius: 2%">
-    <el-form v-model="addFlightForm" :rules="addFlightRules" ref="addFlightFormRef" label-position="left"
+    <el-form :model="addFlightForm" :rules="addFlightRules" ref="addFlightFormRef" label-position="left"
       label-width="130px">
       <el-form-item prop="flight_number" label="航空器注册号" :required="true">
         <el-input v-model="addFlightForm.flight_number" placeholder="航空器注册号">
@@ -289,7 +402,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
         <el-input v-model="addFlightForm.arrival_city" placeholder="目的地">
         </el-input>
       </el-form-item>
-      <el-form-item prop="出发时间" label="出发时间" :required="true">
+      <el-form-item prop="date_of_departure" label="出发时间" :required="true">
         <el-date-picker v-model="addFlightForm.date_of_departure" :clearable="true" placeholder="日期" type="datetime">
         </el-date-picker>
       </el-form-item>
@@ -305,12 +418,9 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
 
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="success" @click="dialogAddFlightFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogAddFlightFormVisible = false">
-          Change
-        </el-button>
-        <el-button type="danger" @click="dialogAddFlightFormVisible = false">
-          Delete
+        <el-button type="success" @click="clearAddFlightForm(); dialogAddFlightFormVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="submitAddFlightForm(addFlightFormRef); dialogAddFlightFormVisible = false">
+          Add
         </el-button>
       </div>
     </template>
@@ -319,7 +429,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
   <!-- 查看航班弹出框 -->
   <el-dialog v-model="dialogWitchFlightFormVisible" title="发布机票" width="600"
     style="padding: 50px;padding-top: 30px; border-radius: 2%">
-    <el-form v-model="witchFlightForm" :rules="witchFlightRules" ref="witchFlightFormRef" label-position="left"
+    <el-form :model="witchFlightForm" :rules="witchFlightRules" ref="witchFlightFormRef" label-position="left"
       label-width="130px">
       <el-form-item prop="flight_number" label="航空器注册号" :required="true">
         <el-input v-model="witchFlightForm.flight_number" placeholder="航空器注册号">
@@ -333,7 +443,7 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
         <el-input v-model="witchFlightForm.arrival_city" placeholder="目的地">
         </el-input>
       </el-form-item>
-      <el-form-item prop="出发时间" label="出发时间" :required="true">
+      <el-form-item prop="date_of_departure" label="出发时间" :required="true">
         <el-date-picker v-model="witchFlightForm.date_of_departure" :clearable="true" placeholder="日期" type="datetime">
         </el-date-picker>
       </el-form-item>
@@ -350,10 +460,11 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
     <template #footer>
       <div class="dialog-footer">
         <el-button type="success" @click="dialogAddFlightFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogAddFlightFormVisible = false">
+        <el-button type="primary"
+          @click="submitWitchFlightForm(witchFlightFormRef); dialogAddFlightFormVisible = false">
           Change
         </el-button>
-        <el-button type="danger" @click="dialogAddFlightFormVisible = false">
+        <el-button type="danger" @click="deleteFlight(); dialogAddFlightFormVisible = false">
           Delete
         </el-button>
       </div>
@@ -411,39 +522,40 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
           <el-input class="el-input" placeholder="乘客容量" v-model="flightSearch.capacity" />
         </div>
         <div class="box">
-          <el-button color="#626aef"
+          <el-button color="#626aef" @click="conditionSearch()"
             style="font-size: 1.5rem; justify-self: center;align-self: center;width: 2.4rem;height: 2.4rem"
             :icon="Search" />
         </div>
       </div>
-      <div class="body-item">
+      <div class="body-item" v-for="item in flightList" :key="item.id">
         <div class="box">
-          <div>123</div>
+          <div>{{ item.flight_number }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.departure_city }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.arrival_city }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.date_of_departure }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.estimated_travel_time }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.capacity }}</div>
         </div>
         <div class="box-button">
           <el-button type="success" style="width: 70%;justify-self: center;align-self: center"
-            @click="dialogWitchFlightFormVisible = true">查看</el-button>
+            @click="itemNow = item; openWitch()">查看</el-button>
           <el-button type="primary" style="width: 70%;align-self: center"
             @click="dialogAddTicketFormVisible = true">出票</el-button>
         </div>
       </div>
     </div>
-    <el-pagination background layout="prev, pager, next" class="footer" />
+    <el-pagination background layout="prev, pager, next" :total="countNumber" :page-size="page.pageSize"
+      v-model:current-page="page.pageNo" @current-change="pageSearch()" class="footer" />
   </div>
 </template>
 
@@ -513,7 +625,6 @@ const resetWitchFlightForm = (formEl: FormInstance | undefined) => {
       background-color: rgb(25, 32, 56);
     }
   }
-
 
   .footer {
     justify-self: center;
