@@ -55,7 +55,7 @@ onMounted(async () => {
     <div class="body">
       <div class="body-item">
         <div class="box">
-          <div>物品名</div>
+          <div>名称</div>
         </div class="box">
         <div class="box">
           <div>描述</div>
@@ -140,7 +140,7 @@ onMounted(async () => {
       }
     }
 
-    .body-item:nth-child(n+4):nth-child(even) {
+    .body-item:nth-child(n+2):nth-child(odd) {
       background-color: rgb(25, 32, 56);
     }
   }

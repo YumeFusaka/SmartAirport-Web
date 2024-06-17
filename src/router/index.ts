@@ -67,6 +67,11 @@ const router = createRouter({
               component: () => import('@/views/airline/listFlight/ListFlight.vue')
             }
           ]
+        },
+        {
+          path: '/staff',
+          name: 'staff',
+          component: () => import('@/views/staff/StaffIndex.vue'),
         }
       ]
     },

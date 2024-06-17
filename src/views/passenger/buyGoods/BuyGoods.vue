@@ -51,7 +51,7 @@ import type { BuyGoodsView, PassengerGoodsBuyParams } from '@/types/passenger';
 
 const open = () => {
   ElMessageBox.confirm(
-    '确定要购买此机票吗？',
+    '确定要购买此商品吗？',
     'Confirmation',
     {
       confirmButtonText: 'confirm',
@@ -69,13 +69,13 @@ const open = () => {
       refreshSearch();
       ElMessage({
         type: 'success',
-        message: '购票成功',
+        message: '购买成功',
       })
     })
     .catch(() => {
       ElMessage({
         type: 'info',
-        message: '购票失败',
+        message: '购买失败',
       })
     })
 }
@@ -94,7 +94,7 @@ const open = () => {
     <div class="body">
       <div class="body-item">
         <div class="box">
-          <div>物品名</div>
+          <div>名称</div>
         </div class="box">
         <div class="box">
           <div>描述</div>
@@ -131,7 +131,7 @@ const open = () => {
         </div>
 
         <div class="box"><el-button type="primary" @click="itemNow = item; open()" :disabled="item.stock == 0"
-            style="width: 70%;justify-self: center;align-self: center">购票</el-button>
+            style="width: 70%;justify-self: center;align-self: center">购买</el-button>
         </div>
       </div>
 
@@ -197,7 +197,7 @@ const open = () => {
       }
     }
 
-    .body-item:nth-child(n+4):nth-child(even) {
+    .body-item:nth-child(n+2):nth-child(even) {
       background-color: rgb(25, 32, 56);
     }
   }
