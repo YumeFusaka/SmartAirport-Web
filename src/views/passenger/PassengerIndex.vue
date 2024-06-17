@@ -22,14 +22,14 @@ import { ref } from 'vue';
           <span class="menu-text">机票订单</span>
           <el-icon><i-ep-ArrowRight /></el-icon>
         </el-menu-item>
-        <el-menu-item class="aside-item" index="3">
+        <el-menu-item class="aside-item" index="/passenger/buyGoods">
           <el-icon>
             <i-ep-Handbag class="icon" />
           </el-icon>
           <span class="menu-text">商品窗口</span>
           <el-icon><i-ep-ArrowRight /></el-icon>
         </el-menu-item>
-        <el-menu-item class="aside-item" index="4">
+        <el-menu-item class="aside-item" index="/passenger/luggageList">
           <el-icon>
             <i-ep-Goods class="icon" />
           </el-icon>

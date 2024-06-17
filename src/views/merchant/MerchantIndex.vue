@@ -1,95 +1,66 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+</script>
+
 <template>
-  <el-row class="tac">
-    <el-col :span="12">
-      <h5 class="mb-2">Default colors</h5>
-      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon>
-              <i-ep-location />
-            </el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-        <el-menu-item index="2">
-          <el-icon><icon-menu /></el-icon>
-          <span>Navigator Two</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
+  <el-container class="body">
+    <!-- aside布局 -->
+    <el-aside width="15rem" class="aside">
+      <el-menu active-text-color="rgb(51,102,255)" background-color="rgb(34,43,69)" text-color="#FFFFFF" router
+        class="menu" default-active="/merchant/goodsShop">
+        <el-menu-item class="aside-item" index="/merchant/goodsShop">
           <el-icon>
-            <document />
+            <i-ep-Money class="icon" />
           </el-icon>
-          <span>Navigator Three</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <el-icon>
-            <setting />
-          </el-icon>
-          <span>Navigator Four</span>
+          <span class="menu-text">商品列表</span>
+          <el-icon><i-ep-ArrowRight /></el-icon>
         </el-menu-item>
       </el-menu>
-    </el-col>
-    <el-col :span="12">
-      <h5 class="mb-2">Custom colors</h5>
-      <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2"
-        text-color="#fff" @open="handleOpen" @close="handleClose">
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon>
-              <location />
-            </el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-        <el-menu-item index="2">
-          <el-icon><icon-menu /></el-icon>
-          <span>Navigator Two</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <el-icon>
-            <document />
-          </el-icon>
-          <span>Navigator Three</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <el-icon>
-            <setting />
-          </el-icon>
-          <span>Navigator Four</span>
-        </el-menu-item>
-      </el-menu>
-    </el-col>
-  </el-row>
+    </el-aside>
+    <!-- main布局 -->
+    <el-main class="main">
+      <RouterView />
+    </el-main>
+  </el-container>
 </template>
 
-<script lang="ts" setup>
+<style scoped>
+.body {
+  height: 100%;
+  width: 100%;
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+  .aside {
+    height: 100%;
+
+    .menu {
+      height: 100%;
+      border: none;
+      padding-top: 8%;
+
+      .aside-item {
+        .icon {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+
+        .menu-text {
+          font-size: 1.2rem;
+          margin-left: 3%;
+          margin-right: 36%;
+          font-family: system-ui;
+        }
+      }
+
+      .aside-item:not(:last-child) {
+        border-bottom: 0.1rem solid rgb(228, 60, 178);
+      }
+    }
+
+  }
+
+  .main {
+    background-color: rgb(21, 26, 48);
+    padding: 2.5%;
+  }
 }
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-</script>
+</style>

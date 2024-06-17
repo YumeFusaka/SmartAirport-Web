@@ -423,6 +423,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
         }
 
         div {
+          padding: 0 0.8rem;
           align-self: center;
           justify-self: center;
           text-align: center

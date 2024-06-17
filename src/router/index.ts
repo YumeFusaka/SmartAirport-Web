@@ -24,13 +24,31 @@ const router = createRouter({
               path: '/passenger/historyTicket',
               name: 'historyTicket',
               component: () => import('@/views/passenger/historyTicket/HistoryTicket.vue')
+            },
+            {
+              path: '/passenger/buyGoods',
+              name: 'buyGoods',
+              component: () => import('@/views/passenger/buyGoods/BuyGoods.vue')
+            },
+            {
+              path: '/passenger/luggageList',
+              name: 'luggageList',
+              component: () => import('@/views/passenger/luggageList/LuggageList.vue')
             }
           ]
         },
         {
           path: '/merchant',
           name: 'merchant',
-          component: () => import('@/views/merchant/MerchantIndex.vue')
+          component: () => import('@/views/merchant/MerchantIndex.vue'),
+          redirect: '/merchant/goodsShop',
+          children: [
+            {
+              path: '/merchant/goodsShop',
+              name: 'goodsShop',
+              component: () => import('@/views/merchant/goodsShop/GoodsShop.vue')
+            }
+          ]
         },
         {
           path: '/airline',

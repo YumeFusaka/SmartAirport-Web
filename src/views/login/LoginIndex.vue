@@ -41,6 +41,7 @@ const login = async (formRef: FormInstance | null) => {
   console.log(res);
   userStore.setToken(res.data.token);
   userStore.setName(res.data.name);
+  ElMessage.success("登录成功");
   if (formData.value.identity === '旅客') {
     userStore.setIdentity("1");
     router.push('/' + 'passenger');

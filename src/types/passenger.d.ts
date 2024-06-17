@@ -26,3 +26,24 @@ export type PassengerTicketInfo = {
 export type PassengerTicketBuyParams = {
   ticketIds: number[]
 }
+
+export type BuyGoodsView = {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  stock: number;
+  category: string;
+}
+
+export type PassengerGoodsBuyParams = {
+  goodsIds: number[]
+}
+
+export type PassengerLuggageInfo = {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+  category: string;
+}

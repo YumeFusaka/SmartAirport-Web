@@ -53,6 +53,7 @@ const register = async (formRef: FormInstance | null) => {
     registerData.identity = '4';
   const res = await userRegisterAPI(registerData);
   console.log(res);
+  ElMessage.success("注册成功");
   router.push('/login');
 };
 
