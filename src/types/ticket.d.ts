@@ -1,3 +1,4 @@
+import type { Page } from '@/types/page'
 export type BuyTicketInfo = {
   id: number;
   flight_id: number;
@@ -14,7 +15,7 @@ export type BuyTicketInfo = {
   estimated_travel_time: number;
 }
 
-export type BuyTicketView = {
+export type BuyTicketView = Page & {
   price: number;
   seat_class: string;
   seat_number: number;
