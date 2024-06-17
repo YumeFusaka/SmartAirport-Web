@@ -17,7 +17,7 @@ export type BuyTicketInfo = {
 export type BuyTicketView = {
   price: number;
   seat_class: string;
-  seat_number: string;
+  seat_number: number;
   flight_number: string;
   departure_city: string;
   arrival_city: string;
@@ -32,4 +32,8 @@ export type AddTicketParams = {
   seat_class: string;
   seat_number: number;
   price: number;
+}
+
+export type TicketDeleteParams = {
+  ticketIds: number[]
 }

@@ -1,34 +1,167 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 
-import type { BuyTicketView } from '@/types/ticket';
+import type { BuyTicketView, TicketDeleteParams } from '@/types/ticket';
 import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
-import { ref } from 'vue'
-const ticketSearch = ref<BuyTicketView>({
+import { onMounted, ref } from 'vue'
+import type { Page } from '@/types/page';
+import type { AirlineTicketFlightParams, AirlineTicketInfo } from '@/types/airline';
+import { airlineFindTicketAPI, airlineTicketCountAPI, airlineTicketDeleteAPI, airlineTicketUpdateAPI } from '@/apis/airline';
+const ticketSearch = ref<AirlineTicketFlightParams>({
   price: 0,
   seat_class: "",
-  seat_number: "",
+  seat_number: 0,
   flight_number: "",
   departure_city: "",
   arrival_city: "",
   date_of_departure: "",
   estimated_travel_time: 0,
-  updated_time: ""
+  pageNo: 1,
+  pageSize: 8
 });
 
+const ticketSearchParams = ref<AirlineTicketFlightParams>({
+  price: 0,
+  seat_class: "",
+  seat_number: 0,
+  flight_number: "",
+  departure_city: "",
+  arrival_city: "",
+  date_of_departure: "",
+  estimated_travel_time: 0,
+  pageNo: 1,
+  pageSize: 8
+});
+
+const page = ref<Page>({
+  pageNo: 1,
+  pageSize: 8
+})
+
+const countNumber = ref<number>(0);
+
+const itemNow = ref<AirlineTicketInfo>();
+
+const openWitch = () => {
+  form.value = itemNow.value!;
+  dialogFormVisible.value = true;
+}
+
+const countTicket = async () => {
+  const res = await airlineTicketCountAPI(ticketSearchParams.value);
+  console.log(res)
+  countNumber.value = res.data;
+}
+
+const ticketList = ref<AirlineTicketInfo[]>()
+
+const conditionSearch = async () => {
+  page.value.pageNo = 1;
+  ticketSearchParams.value = {
+    ...ticketSearch.value,
+    ...page.value
+  };
+  const params: AirlineTicketFlightParams = {
+    flight_number: ticketSearch.value.flight_number,
+    departure_city: ticketSearch.value.departure_city,
+    arrival_city: ticketSearch.value.arrival_city,
+    date_of_departure: ticketSearch.value.date_of_departure,
+    estimated_travel_time: ticketSearch.value.estimated_travel_time,
+    seat_number: ticketSearch.value.seat_number,
+    seat_class: ticketSearch.value.seat_class,
+    price: ticketSearch.value.price,
+    pageNo: page.value.pageNo,
+    pageSize: page.value.pageSize
+  }
+  if (params.seat_class === '一等舱') {
+    params.seat_class = '1'
+  } else if (params.seat_class === '二等舱') {
+    params.seat_class = '2'
+  }
+  const res = await airlineFindTicketAPI(params);
+  console.log(res)
+  countTicket();
+  ticketList.value = res.data
+}
+
+const pageSearch = async () => {
+  const params: AirlineTicketFlightParams = {
+    flight_number: ticketSearchParams.value.flight_number,
+    departure_city: ticketSearchParams.value.departure_city,
+    arrival_city: ticketSearchParams.value.arrival_city,
+    date_of_departure: ticketSearchParams.value.date_of_departure,
+    estimated_travel_time: ticketSearchParams.value.estimated_travel_time,
+    seat_number: ticketSearchParams.value.seat_number,
+    seat_class: ticketSearchParams.value.seat_class,
+    price: ticketSearchParams.value.price,
+    pageNo: page.value.pageNo,
+    pageSize: page.value.pageSize
+  }
+  const res = await airlineFindTicketAPI(params);
+  console.log(res);
+  ticketList.value = res.data;
+}
+
+const refreshSearch = async () => {
+  ticketSearch.value = {
+    price: 0,
+    seat_class: "",
+    seat_number: 0,
+    flight_number: "",
+    departure_city: "",
+    arrival_city: "",
+    date_of_departure: "",
+    estimated_travel_time: 0,
+    pageNo: 1,
+    pageSize: 8
+  };
+  ticketSearchParams.value = {
+    price: 0,
+    seat_class: "",
+    seat_number: 0,
+    flight_number: "",
+    departure_city: "",
+    arrival_city: "",
+    date_of_departure: "",
+    estimated_travel_time: 0,
+    pageNo: 1,
+    pageSize: 8
+  };
+  page.value.pageNo = 1;
+  page.value.pageSize = 8;
+  await countTicket();
+  await pageSearch();
+}
+
+const deleteTicket = async () => {
+  const params = ref<TicketDeleteParams>({
+    ticketIds: []
+  })
+  params.value.ticketIds.push(itemNow.value!.id);
+  console.log(params.value.ticketIds)
+  const res = await airlineTicketDeleteAPI(params.value);
+  console.log(res);
+  refreshSearch();
+}
+
+onMounted(async () => {
+  await countTicket();
+  await pageSearch();
+})
 
 // 查看弹出框
 const dialogFormVisible = ref(false)
 const formRef = ref<FormInstance>()
-const form = ref({
+const form = ref<AirlineTicketInfo>({
+  id: 0,
   flight_number: '',
   departure_city: '',
   arrival_city: '',
   date_of_departure: '',
-  estimated_travel_time: '',
-  price: '',
+  estimated_travel_time: 0,
+  price: 0,
   seat_class: '',
-  seat_number: '',
+  seat_number: 0
 })
 
 const rules = ref({
@@ -75,6 +208,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('error submit!', fields)
     }
   })
+  const res = await airlineTicketUpdateAPI(form.value);
+  console.log(res);
+  refreshSearch();
 }
 
 const resetForm = (formEl: FormInstance | undefined) => {
@@ -89,7 +225,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   <!-- 查看弹出框 -->
   <el-dialog v-model="dialogFormVisible" title="查看机票" width="600"
     style="padding: 50px;padding-top: 30px; border-radius: 2%">
-    <el-form v-model="form" :rules="rules" ref="formRef" label-position="left" label-width="130px">
+    <el-form :model="form" :rules="rules" ref="formRef" label-position="left" label-width="130px">
       <el-form-item prop="flight_number" label="航空器注册号" :required="true">
         <el-input v-model="form.flight_number" placeholder="航空器注册号" disabled="true">
         </el-input>
@@ -107,8 +243,8 @@ const resetForm = (formEl: FormInstance | undefined) => {
           disabled="true">
         </el-date-picker>
       </el-form-item>
-      <el-form-item prop="estimated_travel_time" label="预计飞行时间" :required="true" disabled="true">
-        <el-input v-model="form.estimated_travel_time" type="number" placeholder="预计飞行时间">
+      <el-form-item prop="estimated_travel_time" label="预计飞行时间" :required="true">
+        <el-input v-model="form.estimated_travel_time" type="number" placeholder="预计飞行时间" disabled="true">
         </el-input>
       </el-form-item>
       <el-form-item prop="price" label="价格" :required="true">
@@ -128,10 +264,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
     <template #footer>
       <div class="dialog-footer">
         <el-button type="success" @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">
+        <el-button type="primary" @click="submitForm(formRef); dialogFormVisible = false">
           Change
         </el-button>
-        <el-button type="danger" @click="dialogFormVisible = false">
+        <el-button type="danger" @click="deleteTicket(); dialogFormVisible = false">
           Delete
         </el-button>
       </div>
@@ -199,42 +335,43 @@ const resetForm = (formEl: FormInstance | undefined) => {
           <el-input class="el-input" placeholder="座位号" v-model="ticketSearch.seat_number" />
         </div>
         <div class="box">
-          <el-button color="#626aef"
+          <el-button color="#626aef" @click="conditionSearch()"
             style="font-size: 1.5rem; justify-self: center;align-self: center;width: 2.4rem;height: 2.4rem"
             :icon="Search" />
         </div>
       </div>
-      <div class="body-item">
+      <div class="body-item" v-for="item in ticketList" :key="item.id">
         <div class="box">
-          <div>123</div>
+          <div>{{ item.flight_number }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.departure_city }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.arrival_city }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.date_of_departure }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.estimated_travel_time }} min</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.price }}￥</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.seat_class === "1" ? "一等舱" : "二等舱" }}</div>
         </div>
         <div class="box">
-          <div>123</div>
+          <div>{{ item.seat_number }}</div>
         </div>
-        <div class="box"><el-button type="primary" @click="dialogFormVisible = true"
+        <div class="box"><el-button type="primary" @click="itemNow = item; openWitch();"
             style="width: 70%;justify-self: center;align-self: center">查看</el-button>
         </div>
       </div>
     </div>
-    <el-pagination background layout="prev, pager, next" :pager-count="5" :total="50" class="footer" />
+    <el-pagination background layout="prev, pager, next" :total="countNumber" :page-size="page.pageSize"
+      v-model:current-page="page.pageNo" @current-change="pageSearch()" class="footer" />
   </div>
 </template>
 

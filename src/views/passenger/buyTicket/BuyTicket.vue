@@ -5,7 +5,7 @@ import { ref } from 'vue'
 const ticketSearch = ref<BuyTicketView>({
   price: 0,
   seat_class: "",
-  seat_number: "",
+  seat_number: 0,
   flight_number: "",
   departure_city: "",
   arrival_city: "",
